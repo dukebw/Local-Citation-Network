@@ -426,7 +426,7 @@ const vm = new Vue({
 
       const DOI = this.newSourceDOI.trim()
 
-      if (!DOI.match(/10\.\d{4,9}\/+/)) return this.errorMessage(DOI + ' is not a valid DOI, which must be in the form: 10.prefix/suffix where prefix is 4 or more digits and suffix is a string.', 'Invalid DOI')
+      // if (!DOI.match(/10\.\d{4,9}\/+/)) return this.errorMessage(DOI + ' is not a valid DOI, which must be in the form: 10.prefix/suffix where prefix is 4 or more digits and suffix is a string.', 'Invalid DOI')
 
       const graphDOIs = this.graphs.map(graph => graph.source.doi)
 
@@ -448,7 +448,8 @@ const vm = new Vue({
       if (!this.file || !this.file.name) return false
       this.isLoading = true
       this.file.text().then(text => {
-        const dois = Array.from(new Set(text.match(/10\.\d{4,9}\/[-._;()/:A-Z0-9]+/gi)))
+        // const dois = Array.from(new Set(text.match(/10\.\d{4,9}\/[-._;()/:A-Z0-9]+/gi)))
+        const dois = Array.from(new Set(text.match(/\d+/gi)))
         if (!dois.length) throw new Error('No DOIs found in file.')
         this.setNewSource({ references: dois, referencesCountTotal: dois.length }, this.file.name, this.file.name)
       }).catch(e => this.errorMessage('Error with file handling: ' + e))
